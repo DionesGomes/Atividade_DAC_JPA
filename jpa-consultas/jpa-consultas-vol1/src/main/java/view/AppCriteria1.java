@@ -1,8 +1,6 @@
 package view;
 
-import domain.Endereco;
-import domain.Professor;
-import domain.Telefone;
+import domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -74,6 +72,17 @@ public class AppCriteria1 {
     //Uma consulta que seleciona todos os livros dos Autores da cidade de Cajazeiras e
     //tiveram seu lançamento entre os dias 01/01/2019 e 12/12/2019.
     private static void letraE(EntityManager em) {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
+        Root<Livro> root = criteria.from(Livro.class);
+        Join<Livro, Autor> join = root.join("autores");
+        Predicate cidade = builder.like(join.get("endereco").get("cidade"),"%Cajazeiras%");
+        Predicate entreLancamento = builder.between(root.get("lancamento"),"2019-01-01","2019-12-12");
+        criteria.where(cidade,entreLancamento);
+        em.createQuery(criteria).getResultList().forEach(
+                l-> System.out.println("Livro: "+l.getNome())
+        );
     }
 
     //Uma consulta que selecione os Livros dos Autores que começam com a letra “J”.
