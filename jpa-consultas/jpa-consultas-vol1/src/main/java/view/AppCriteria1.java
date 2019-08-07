@@ -27,6 +27,20 @@ public class AppCriteria1 {
     //Uma consulta que selecione todos os livros dos autores que não nasceram no dia
     //21/11/1982.
     private static void letraA(EntityManager em) {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
+        Subquery<Autor> subquery = criteria.subquery(Autor.class);
+
+        Root<Livro> root = subquery.from(Livro.class);
+        Join<Livro, Autor> join = root.join("autores");
+        Predicate dataNascimento = builder.notEqual(join.get("dataNascimento"),"1982-11-21");
+        subquery.select(join).where(dataNascimento);
+
+        criteria.select(root).where(builder.exists(subquery));
+        em.createQuery(criteria).getResultList().forEach(
+                l-> System.out.println(l.getNome())
+        );
     }
 
     //Uma consulta que selecione todos os professores que possuem Telefone e residem
