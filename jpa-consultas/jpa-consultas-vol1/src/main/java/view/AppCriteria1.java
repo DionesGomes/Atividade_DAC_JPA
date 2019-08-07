@@ -2,6 +2,7 @@ package view;
 
 import domain.Endereco;
 import domain.Professor;
+import domain.Telefone;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -33,7 +34,7 @@ public class AppCriteria1 {
     //Uma consulta que selecione todos os professores que possuem Telefone e residem
     //na rua “Que atividade fácil”.
     private static void letraB(EntityManager em) {
-        
+
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Professor> criteria = builder.createQuery(Professor.class);
         Root<Professor> root = criteria.from(Professor.class);
@@ -58,6 +59,16 @@ public class AppCriteria1 {
     //Uma consulta que seleciona todas os Professores que possuem algum telefone
     //que termina em 8.
     private static void letraD(EntityManager em) {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Professor> criteria = builder.createQuery(Professor.class);
+        Root<Professor> root = criteria.from(Professor.class);
+        Join<Professor, Telefone> join = root.join("telefones");
+        Predicate telefoneTerminaEm8 = builder.like(join.get("numero"),"%8");
+        criteria.where(telefoneTerminaEm8);
+        em.createQuery(criteria).getResultList().forEach(
+                p-> System.out.println("Professor: "+p.getNome())
+        );
     }
 
     //Uma consulta que seleciona todos os livros dos Autores da cidade de Cajazeiras e
