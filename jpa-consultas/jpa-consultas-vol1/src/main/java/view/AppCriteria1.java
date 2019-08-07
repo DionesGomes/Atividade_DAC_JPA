@@ -87,6 +87,16 @@ public class AppCriteria1 {
 
     //Uma consulta que selecione os Livros dos Autores que começam com a letra “J”.
     private static void letraF(EntityManager em) {
+
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Livro> criteria = builder.createQuery(Livro.class);
+        Root<Livro> root = criteria.from(Livro.class);
+        Join<Livro,Autor> join = root.join("autores");
+        Predicate predicate = builder.like(builder.lower(join.get("nome")),"j%");
+        criteria.where(predicate);
+        em.createQuery(criteria).getResultList().forEach(
+                l-> System.out.println("Livro: "+l.getNome())
+        );
     }
 
 }
