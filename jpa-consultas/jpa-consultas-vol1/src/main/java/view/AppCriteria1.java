@@ -1,7 +1,12 @@
 package view;
 
+import domain.Endereco;
+import domain.Professor;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 
 public class AppCriteria1 {
 
@@ -28,6 +33,20 @@ public class AppCriteria1 {
     //Uma consulta que selecione todos os professores que possuem Telefone e residem
     //na rua “Que atividade fácil”.
     private static void letraB(EntityManager em) {
+        
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Professor> criteria = builder.createQuery(Professor.class);
+        Root<Professor> root = criteria.from(Professor.class);
+        Join<Professor, Endereco> join = root.join("endereco");
+
+        Predicate telefone = builder.isNotEmpty(root.get("telefones"));
+        Predicate rua = builder.equal(join.get("rua"),"Que atividade facil");
+
+        criteria.select(root).where(telefone,rua);
+        TypedQuery<Professor> query = em.createQuery(criteria);
+        query.getResultList().forEach(
+                p-> System.out.println(p.getNome())
+        );
     }
 
     //Uma classe, AlunoVO, que representa o nome, CPF e idade do Aluno. Crie uma
