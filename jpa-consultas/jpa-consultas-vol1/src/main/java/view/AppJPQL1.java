@@ -1,6 +1,7 @@
 package view;
 
 import domain.Livro;
+import domain.Professor;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -26,7 +27,7 @@ public class AppJPQL1 {
     //Uma consulta que selecione todos os livros dos autores que não nasceram no dia
     //21/11/1982.
     private static void letraA(EntityManager em) {
-        
+
         String jpql="SELECT l FROM Livro l WHERE NOT EXISTS (SELECT a FROM l.autores a WHERE " +
                 "a.dataNascimento='1982-11-21')";
         TypedQuery<Livro> query = em.createQuery(jpql,Livro.class);
@@ -38,6 +39,12 @@ public class AppJPQL1 {
     //Uma consulta que selecione todos os professores que possuem Telefone e residem
     //na rua “Que atividade fácil”.
     private static void letraB(EntityManager em) {
+        
+        String jpql = "SELECT  p FROM Professor p  WHERE p.endereco.rua='Que atividade facil' AND p.telefones IS NOT EMPTY";
+        TypedQuery<Professor> query = em.createQuery(jpql,Professor.class);
+        query.getResultList().forEach(
+                pr-> System.out.println(pr.getNome())
+        );
     }
 
     //Uma classe, AlunoVO, que representa o nome, CPF e idade do Aluno. Crie uma
