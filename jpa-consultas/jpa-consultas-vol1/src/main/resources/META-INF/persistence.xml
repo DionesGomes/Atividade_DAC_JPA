@@ -13,7 +13,7 @@
 <!--            <property name="eclipselink.logging.level" value="FINE"/>-->
 
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/atividade1"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5433/dac-atividade-jpa"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value="123"/>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
