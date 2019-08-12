@@ -39,7 +39,7 @@ public class AppJPQL1 {
     //Uma consulta que selecione todos os professores que possuem Telefone e residem
     //na rua “Que atividade fácil”.
     private static void letraB(EntityManager em) {
-        
+
         String jpql = "SELECT  p FROM Professor p  WHERE p.endereco.rua='Que atividade facil' AND p.telefones IS NOT EMPTY";
         TypedQuery<Professor> query = em.createQuery(jpql,Professor.class);
         query.getResultList().forEach(
@@ -51,11 +51,19 @@ public class AppJPQL1 {
     //consulta, que retorna uma lista de todos os AlunoVO, selecionando todos os alunos
     //que pertencem a turma de 2019.1.
     private static void letraC(EntityManager em) {
+
     }
 
     //Uma consulta que seleciona todas os Professores que possuem algum telefone
     //que termina em 8.
     private static void letraD(EntityManager em) {
+
+        String jpql="SELECT p FROM Professor p LEFT JOIN p.telefones t " +
+                "WHERE t.numero LIKE '%8'";
+        TypedQuery<Professor> query = em.createQuery(jpql, Professor.class);
+        query.getResultList().forEach(
+                p -> System.out.println("Professor: "+p.getNome())
+        );
     }
 
     //Uma consulta que seleciona todos os livros dos Autores da cidade de Cajazeiras e
