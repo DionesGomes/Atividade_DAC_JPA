@@ -1,8 +1,8 @@
--- Database: "Atividade2"
+-- Database: "dac-atividade-jpa2"
 
--- DROP DATABASE atividade2;
+-- DROP DATABASE dac-atividade-jpa2;
 
-CREATE DATABASE atividade2
+CREATE DATABASE dac-atividade-jpa2
   WITH OWNER = postgres
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
