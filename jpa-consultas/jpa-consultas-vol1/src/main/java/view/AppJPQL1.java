@@ -68,7 +68,6 @@ public class AppJPQL1 {
     //Uma consulta que seleciona todos os livros dos Autores da cidade de Cajazeiras e
     //tiveram seu lançamento entre os dias 01/01/2019 e 12/12/2019.
     private static void letraE(EntityManager em) {
-
         String jpql="SELECT l FROM Livro l, IN(l.autores) a WHERE a.endereco.cidade LIKE '%Cajazeiras%' " +
                 "AND l.lancamento BETWEEN '2019-01-01' AND '2019-12-12'";
         TypedQuery<Livro> query = em.createQuery(jpql, Livro.class);
@@ -79,6 +78,11 @@ public class AppJPQL1 {
 
     //Uma consulta que selecione os Livros dos Autores que começam com a letra “J”.
     private static void letraF(EntityManager em) {
+        String jpql="SELECT l FROM Livro l, IN(l.autores) a WHERE LOWER(a.nome) LIKE 'j%' ";
+        TypedQuery<Livro> query = em.createQuery(jpql, Livro.class);
+        query.getResultList().forEach(
+                l-> System.out.println("Livro: "+l.getNome())
+        );
     }
 
 }
